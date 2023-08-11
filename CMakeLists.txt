@@ -20,6 +20,8 @@ add_executable(${CMAKE_PROJECT_NAME}
         weapon/Gun.h
         weapon/Gold_Ak47.h
         weapon/Rifle.h
+        weapon/Mac10.h
+        weapon/Fists.h
         player/PlayerController.cpp
         player/PlayerController.h
         Shooter.cpp

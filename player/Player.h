@@ -59,9 +59,7 @@ public:
 
     void addWeapon(std::shared_ptr<Weapon> weapon);
 
-    void selectNextWeapon();
-
-    void selectPreviousWeapon();
+    void selectWeapon(int index);
 
     bool fire();
 

@@ -10,6 +10,8 @@
 #include <io/Screen.h>
 
 #include "Player.h"
+#include "../weapon/Mac10.h"
+#include "../weapon/Fists.h"
 
 Player::Player(ObjectNameTag name, const std::string &filename, const Vec3D &scale) : RigidBody(std::move(name), filename, scale) {
     setAcceleration(Vec3D{0, -ShooterConsts::GRAVITY, 0});
@@ -47,6 +49,10 @@ void Player::collisionWithObject(const ObjectNameTag &tag, std::shared_ptr<Rigid
         addWeapon(std::make_shared<Rifle>());
     }
 
+    if (tag.str().find("Bonus_mac10") != std::string::npos) {
+        addWeapon(std::make_shared<Mac10>());
+    }
+
     if (tag.str().find("Bonus_hill") != std::string::npos) {
         setFullHealth();
     }
@@ -63,15 +69,21 @@ void Player::collisionWithObject(const ObjectNameTag &tag, std::shared_ptr<Rigid
 void Player::addWeapon(std::shared_ptr<Weapon> weapon) {
     SoundController::loadAndPlay(SoundTag("changeWeapon"), ShooterConsts::CHANGE_WEAPON_SOUND);
 
-    for (auto &w : _weapons) {
+    for (int i = 0; i < _weapons.size(); i++) {
+        std::shared_ptr<Weapon> &w = _weapons[i];
         if (w->name() == weapon->name()) {
-            w->addAPack();
+            w->refillAPack();
+            if(_selectedWeapon != i){
+                selectWeapon(i);
+            }
             return;
         }
     }
 
     _weapons.push_back(weapon);
     attach(weapon);
+
+    selectWeapon((_selectedWeapon + 1) % _weapons.size());
 
     _weapons.back()->translate(position());
     _weapons.back()->rotateRelativePoint(position() + Vec3D{0, 1.8, 0}, Vec3D{0, 1, 0}, angle().y());
@@ -90,21 +102,25 @@ void Player::reInitWeapons() {
 
         _weapons.clear();
     }
-
-    _selectedWeapon = 0;
     addWeapon(std::make_shared<Gun>());
+    addWeapon(std::make_shared<Shotgun>());
+    addWeapon(std::make_shared<Ak47>());
+    addWeapon(std::make_shared<Gold_Ak47>());
+    addWeapon(std::make_shared<Rifle>());
+    addWeapon(std::make_shared<Mac10>());
+    selectWeapon(0);
 
     EventHandler::call<void(std::shared_ptr<Weapon>)>(Event("add_weapon"),
                                                       _weapons[_selectedWeapon]);
 }
 
-void Player::selectNextWeapon() {
+void Player::selectWeapon(int index) {
     if (_weapons.size() > 1) {
         // change '_selectedWeapon'
         EventHandler::call<void(std::shared_ptr<Weapon>)>(Event("remove_weapon"),
                                                           _weapons[_selectedWeapon]);
 
-        _selectedWeapon = (_selectedWeapon + 1) % _weapons.size();
+        _selectedWeapon = index;
 
         EventHandler::call<void(std::shared_ptr<Weapon>)>(Event("add_weapon"),
                                                           _weapons[_selectedWeapon]);
@@ -114,27 +130,6 @@ void Player::selectNextWeapon() {
         selectWeaponAnimation();
     }
 
-}
-
-void Player::selectPreviousWeapon() {
-    if (_weapons.size() > 1) {
-        // change '_selectedWeapon'
-        EventHandler::call<void(std::shared_ptr<Weapon>)>(Event("remove_weapon"),
-                                                          _weapons[_selectedWeapon]);
-
-        if (_selectedWeapon > 0) {
-            _selectedWeapon = (_selectedWeapon - 1) % _weapons.size();
-        } else {
-            _selectedWeapon = _weapons.size() - 1;
-        }
-
-        EventHandler::call<void(std::shared_ptr<Weapon>)>(Event("add_weapon"),
-                                                          _weapons[_selectedWeapon]);
-
-        Log::log("selectedWeapon " + std::to_string(_selectedWeapon));
-        SoundController::loadAndPlay(SoundTag("changeWeapon"), ShooterConsts::CHANGE_WEAPON_SOUND);
-        selectWeaponAnimation();
-    }
 }
 
 bool Player::fire() {

@@ -25,21 +25,19 @@ namespace ShooterConsts {
 
     const std::string ABILITY_OBJ = "obj/items/ability.obj";
     const std::string HILL_OBJ = "obj/items/hill.obj";
+    const std::string RELOAD_SOUND = "sound/weapons/reload.ogg";
     const std::string GUN_OBJ = "obj/items/gun.obj";
     const std::string GUN_FIRE_SOUND = "sound/weapons/gun.ogg";
-    const std::string GUN_RELOAD_SOUND = "sound/weapons/reload_gun.ogg";
     const std::string AK47_OBJ = "obj/items/ak47.obj";
     const std::string AK47_FIRE_SOUND = "sound/weapons/ak47.ogg";
-    const std::string AK47_RELOAD_SOUND = "sound/weapons/reload_ak47.ogg";
     const std::string GOLD_AK47_OBJ = "obj/items/gold_ak47.obj";
     const std::string GOLD_AK47_FIRE_SOUND = "sound/weapons/ak47.ogg";
-    const std::string GOLD_AK47_RELOAD_SOUND = "sound/weapons/reload_ak47.ogg";
     const std::string RIFLE_OBJ = "obj/items/rifle.obj";
-    const std::string RIFLE_FIRE_SOUND = "sound/weapons/shotgun.ogg";
-    const std::string RIFLE_RELOAD_SOUND = "sound/weapons/reload_ak47.ogg";
+    const std::string RIFLE_FIRE_SOUND = "sound/weapons/rifle.ogg";
     const std::string SHOTGUN_OBJ = "obj/items/shotgun.obj";
     const std::string SHOTGUN_FIRE_SOUND = "sound/weapons/shotgun.ogg";
-    const std::string SHOTGUN_RELOAD_SOUND = "sound/weapons/reload_shotgun.ogg";
+    const std::string MAC10_OBJ = "obj/items/mac10.obj";
+    const std::string MAC10_FIRE_SOUND = "sound/weapons/mac10.ogg";
 
     const std::string CUBE_OBJ = "obj/other/cube.obj";
     const std::string MAP_OBJ = "obj/maps/map1.obj";

@@ -193,6 +193,11 @@ void ShooterServer::generateBonuses() {
     _bonuses.insert({"Bonus_rifle_2", std::make_shared<BonusInfo>(
             BonusInfo{Vec3D(-40, -2, -45), -2 * ShooterConsts::BONUS_RECHARGE_TIME, true})});
 
+    _bonuses.insert({"Bonus_mac10_1", std::make_shared<BonusInfo>(
+            BonusInfo{Vec3D(-40, 8, -7), -2 * ShooterConsts::BONUS_RECHARGE_TIME, true})});
+    _bonuses.insert({"Bonus_mac10_2", std::make_shared<BonusInfo>(
+            BonusInfo{Vec3D(40, 8, 7), -2 * ShooterConsts::BONUS_RECHARGE_TIME, true})});
+
     _bonuses.insert({"Bonus_hill_1", std::make_shared<BonusInfo>(
             BonusInfo{Vec3D(-40, -2, 45), -2 * ShooterConsts::BONUS_RECHARGE_TIME, true})});
     _bonuses.insert({"Bonus_hill_2", std::make_shared<BonusInfo>(

@@ -62,7 +62,7 @@ public:
 
     [[nodiscard]] std::pair<double, double> balance() const { return std::make_pair(_clipAmmo, _stockAmmo); }
 
-    void addAPack() { _stockAmmo += initialPack(); }
+    void refillAPack() { _stockAmmo = initialPack(); _clipAmmo = _clipCapacity;}
 
     [[nodiscard]] int initialPack() const { return _initialPack; }
 };

@@ -11,7 +11,7 @@
 class Shotgun final : public Weapon {
 public:
     explicit Shotgun() : Weapon(15, 1, 1.0, 1.0, 50, 5.0, ShooterConsts::SHOTGUN_FIRE_SOUND,
-                                ShooterConsts::SHOTGUN_RELOAD_SOUND, ObjectNameTag("shotgun"),
+                                ShooterConsts::RELOAD_SOUND, ObjectNameTag("shotgun"),
                                 ShooterConsts::SHOTGUN_OBJ,
                                 Vec3D{3, 3, 3}, Vec3D{-2.1, 0.8, 1.9}, Vec3D{0, 0, 0}) {}
 

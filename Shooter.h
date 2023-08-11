@@ -31,7 +31,7 @@ private:
 
     bool inGame = false;
     int fireTraces = 0;
-    std::string current_map = ShooterConsts::MAP_OBJ;
+    std::string current_map = ShooterConsts::BIG_MAP_OBJ;
 
     void start() override;
     void update() override;
