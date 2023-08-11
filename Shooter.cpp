@@ -12,6 +12,7 @@
 #include "Shooter.h"
 #include "ShooterConsts.h"
 #include "network/Chat.h"
+#include "3dzavr/engine/Consts.h"
 
 // Read server/client settings and start both.
 // If client doesn't connect to the localhost - server doesn't start.
@@ -141,23 +142,23 @@ void Shooter::start() {
     mainMenu.setTitle("Main menu");
     mainMenu.setBackgroundTexture(ShooterConsts::MAIN_MENU_BACK, 1.1, 1.1, screen->width(), screen->height());
 
-    mainMenu.addButton(screen->width() / 2, 200, 200, 20, [this]() {
+    mainMenu.addButton(300, 350, 80, 10, [this]() {
                            this->play();
                            SoundController::loadAndPlay(SoundTag("click"), ShooterConsts::CLICK_SOUND);
                        }, "Server: " + client->serverIp().toString(), 5, 5, ShooterConsts::MAIN_MENU_GUI, {0, 66}, {0, 86}, {0, 46},
-                       Consts::MEDIUM_FONT, {255, 255, 255});
-    mainMenu.addButton(screen->width() / 2, 350, 200, 20, [this]() {
+                       Consts::PIXEL_FONT, {255, 255, 255});
+    mainMenu.addButton(300, 400, 80, 10, [this]() {
         this->player->translateToPoint(Vec3D{0, 0, 0});
         this->player->setVelocity({});
         this->play();
         SoundController::loadAndPlay(SoundTag("click"), ShooterConsts::CLICK_SOUND);
-    }, "Respawn", 5, 5, ShooterConsts::MAIN_MENU_GUI, {0, 66}, {0, 86}, {0, 46}, Consts::MEDIUM_FONT, {255, 255, 255});
+    }, "Respawn", 5, 5, ShooterConsts::MAIN_MENU_GUI, {0, 66}, {0, 86}, {0, 46}, Consts::PIXEL_FONT, {255, 255, 255});
 
-    mainMenu.addButton(screen->width() / 2, 500, 200, 20, [this]() {
+    mainMenu.addButton(300, 450, 80, 10, [this]() {
         client->disconnect();
         server->stop();
         this->exit();
-    }, "Exit", 5, 5, ShooterConsts::MAIN_MENU_GUI, {0, 66}, {0, 86}, {0, 46}, Consts::MEDIUM_FONT, {255, 255, 255});
+    }, "Exit", 5, 5, ShooterConsts::MAIN_MENU_GUI, {0, 66}, {0, 86}, {0, 46}, Consts::PIXEL_FONT, {255, 255, 255});
 
     client->setChatManager(chat);
 }
@@ -319,10 +320,37 @@ void Shooter::drawPlayerStats() {
 
     auto balance = player->weapon()->balance();
 
-    screen->drawText(std::to_string((int) balance.first), Vec2D{150, static_cast<double>(screen->height() - 150)}, 100,
-                     sf::Color(0, 0, 0, 100));
-    screen->drawText(std::to_string((int) balance.second), Vec2D{50, static_cast<double>(screen->height() - 100)}, 50,
-                     sf::Color(0, 0, 0, 70));
+    if(player->kills() > 0){
+        sf::Text tKills;
+        tKills.setCharacterSize(200);
+        tKills.setFillColor(sf::Color(255, 25, 50, 255));
+        tKills.setString("X" + std::to_string(player->kills()));
+        tKills.setPosition(50, static_cast<double>(screen->height() - 800));
+        tKills.setFont(*ResourceManager::loadFont(Consts::NINJA_FONT));
+        screen->drawText(tKills);
+    }
+
+    sf::Text tFirst;
+    tFirst.setCharacterSize(150);
+    tFirst.setFillColor(sf::Color(255, 25, 75, 255));
+    tFirst.setString(std::to_string((int) balance.first));
+    tFirst.setPosition(205, static_cast<double>(screen->height() - 195));
+    tFirst.setFont(*ResourceManager::loadFont(Consts::HOTLINE_FONT));
+    screen->drawText(tFirst);
+    tFirst.setFillColor(sf::Color(81, 247, 255, 255));
+    tFirst.setPosition(200, static_cast<double>(screen->height() - 200));
+    screen->drawText(tFirst);
+
+    sf::Text tSecond;
+    tSecond.setCharacterSize(85);
+    tSecond.setFillColor(sf::Color(255, 25, 75, 255));
+    tSecond.setPosition(53, static_cast<double>(screen->height() - 130));
+    tSecond.setString(std::to_string((int) balance.second));
+    tSecond.setFont(*ResourceManager::loadFont(Consts::HOTLINE_FONT));
+    screen->drawText(tSecond);
+    tSecond.setFillColor(sf::Color(81, 247, 255, 255));
+    tSecond.setPosition(50, static_cast<double>(screen->height() - 133));
+    screen->drawText(tSecond);
 }
 
 void Shooter::play() {

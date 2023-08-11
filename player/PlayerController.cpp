@@ -171,16 +171,6 @@ void PlayerController::update() {
         }
     }
 
-    if (Mouse::isButtonPressed(sf::Mouse::Button::Right)) {
-        bool shot = _player->fire();
-
-        if (shot) {
-            if (_player->weapon()->name() == ObjectNameTag("shotgun")) {
-                _player->addVelocity(-camera->lookAt() * 30 * coeff);
-            }
-        }
-    }
-
     if (Keyboard::isKeyPressed(sf::Keyboard::Space) && _player->inCollision()) {
         // if we just want to jump, we have to add particular speed
 
