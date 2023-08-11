@@ -1,5 +1,5 @@
 //
-// Created by Иван Ильин on 02.06.2021.
+// Created by Vlad on 10 .08.2023.
 //
 
 #ifndef SHOOTER_MAC10_H

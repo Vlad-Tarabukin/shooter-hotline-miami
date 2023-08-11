@@ -38,6 +38,8 @@ namespace ShooterConsts {
     const std::string SHOTGUN_FIRE_SOUND = "sound/weapons/shotgun.ogg";
     const std::string MAC10_OBJ = "obj/items/mac10.obj";
     const std::string MAC10_FIRE_SOUND = "sound/weapons/mac10.ogg";
+    const std::string SILENCER_OBJ = "obj/items/silencer.obj";
+    const std::string SILENCER_FIRE_SOUND = "sound/weapons/silencer.ogg";
 
     const std::string CUBE_OBJ = "obj/other/cube.obj";
     const std::string MAP_OBJ = "obj/maps/map1.obj";

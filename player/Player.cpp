@@ -11,7 +11,7 @@
 
 #include "Player.h"
 #include "../weapon/Mac10.h"
-#include "../weapon/Fists.h"
+#include "../weapon/Silencer.h"
 
 Player::Player(ObjectNameTag name, const std::string &filename, const Vec3D &scale) : RigidBody(std::move(name), filename, scale) {
     setAcceleration(Vec3D{0, -ShooterConsts::GRAVITY, 0});
@@ -51,6 +51,10 @@ void Player::collisionWithObject(const ObjectNameTag &tag, std::shared_ptr<Rigid
 
     if (tag.str().find("Bonus_mac10") != std::string::npos) {
         addWeapon(std::make_shared<Mac10>());
+    }
+
+    if (tag.str().find("Bonus_silencer") != std::string::npos) {
+        addWeapon(std::make_shared<Silencer>());
     }
 
     if (tag.str().find("Bonus_hill") != std::string::npos) {
@@ -108,6 +112,7 @@ void Player::reInitWeapons() {
     addWeapon(std::make_shared<Gold_Ak47>());
     addWeapon(std::make_shared<Rifle>());
     addWeapon(std::make_shared<Mac10>());
+    addWeapon(std::make_shared<Silencer>());
     selectWeapon(0);
 
     EventHandler::call<void(std::shared_ptr<Weapon>)>(Event("add_weapon"),
