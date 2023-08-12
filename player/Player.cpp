@@ -103,7 +103,7 @@ void Player::reInitWeapons() {
 
         EventHandler::call<void(std::shared_ptr<Weapon>)>(Event("remove_weapon"),
                                                           _weapons[_selectedWeapon]);
-
+        selectWeapon(0);
         _weapons.clear();
     }
     addWeapon(std::make_shared<Gun>());
