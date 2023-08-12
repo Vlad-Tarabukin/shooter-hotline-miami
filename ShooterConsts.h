@@ -55,7 +55,6 @@ namespace ShooterConsts {
     const std::string FOOT_OBJ = "obj/man/foot.obj";
 
     const std::string CLICK_SOUND = "sound/click.ogg";
-    const std::string BACK_NOISE = "sound/backNoise.ogg";
     const std::string CHANGE_WEAPON_SOUND = "sound/weapons/change_weapon.ogg";
     const std::string RESTORE_HEALTH_SOUND = "sound/fullHealth.ogg";
     const std::string RESTORE_ABILITY_SOUND = "sound/fullAbility.ogg";
@@ -64,6 +63,14 @@ namespace ShooterConsts {
     const std::string SLOW_MO_SOUND = "sound/slow_mo.ogg";
     const std::string UN_SLOW_MO_SOUND = "sound/unslow_mo.ogg";
     const std::string NO_AMMO_SOUND = "sound/weapons/no_ammo.ogg";
+
+    const std::vector<std::string> MUSIC = {"sound/music/AcidSpit.ogg",
+                                            "sound/music/Divide.ogg",
+                                            "sound/music/FutureClub.ogg",
+                                            "sound/music/LePerv.ogg",
+                                            "sound/music/Quixotic.ogg",
+                                            "sound/music/RollerMobster.ogg",
+                                            "sound/music/Technoir.ogg",};
 }
 
 #endif //SHOOTER_SHOOTERCONSTS_H

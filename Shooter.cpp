@@ -232,7 +232,7 @@ void Shooter::update() {
 
     // background sounds and music control
     if (SoundController::getStatus(SoundTag("background")) != sf::Sound::Status::Playing) {
-        SoundController::loadAndPlay(SoundTag("background"), ShooterConsts::BACK_NOISE);
+        SoundController::loadAndPlay(SoundTag("background"), ShooterConsts::MUSIC[rand() % ShooterConsts::MUSIC.size()]);
     }
     
     
