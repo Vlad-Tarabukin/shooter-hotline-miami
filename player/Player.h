@@ -39,6 +39,8 @@ private:
     std::vector<std::shared_ptr<Weapon>> _weapons;
     size_t _selectedWeapon = 0;
 
+    bool _isPickingUp = false;
+
     std::string _nickName = ShooterConsts::PLAYER_NAME;
 
     std::function<IntersectionInformation(const Vec3D &, const Vec3D &)> _rayCastFunction;
@@ -51,6 +53,8 @@ public:
     void setHealth(double h) { _health = h; }
 
     void setAbility(double a) { _ability = a; }
+
+    void setPickingUp(bool p) { _isPickingUp = p; }
 
     [[nodiscard]] double health() const { return _health; }
 
@@ -106,6 +110,8 @@ public:
     void meleeFireWeaponAnimation();
 
     void reloadWeaponAnimation();
+
+    void throwWeapon();
 };
 
 

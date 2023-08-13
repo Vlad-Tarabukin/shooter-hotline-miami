@@ -233,4 +233,6 @@ void PlayerController::update() {
         SoundController::loadAndPlay(SoundTag("walkSound_" + std::to_string(soundNum)),
                                    "sound/stonestep" + std::to_string(soundNum) + ".ogg");
     }
+
+    _player->setPickingUp(Mouse::isButtonPressed(sf::Mouse::Button::Right));
 }

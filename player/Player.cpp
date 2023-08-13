@@ -8,6 +8,7 @@
 #include <utils/EventHandler.h>
 #include <utils/Log.h>
 #include <io/Screen.h>
+#include <Engine.h>
 
 #include "Player.h"
 
@@ -27,56 +28,58 @@ void Player::rotateWeaponsRelativePoint(const Vec3D &point4D, const Vec3D &v, do
 }
 
 void Player::collisionWithObject(const ObjectNameTag &tag, std::shared_ptr<RigidBody> obj) {
-    if (tag.str().find("Bonus_gun") != std::string::npos) {
-        addWeapon(std::make_shared<Gun>());
-    }
+    if (_isPickingUp && tag.str().find("Bonus") != std::string::npos){
+        if (tag.str().find("Bonus_gun") != std::string::npos) {
+            addWeapon(std::make_shared<Gun>());
+        }
 
-    if (tag.str().find("Bonus_shotgun") != std::string::npos) {
-        addWeapon(std::make_shared<Shotgun>());
-    }
+        else if (tag.str().find("Bonus_shotgun") != std::string::npos) {
+            addWeapon(std::make_shared<Shotgun>());
+        }
 
-    if (tag.str().find("Bonus_ak47") != std::string::npos) {
-        addWeapon(std::make_shared<Ak47>());
-    }
+        else if (tag.str().find("Bonus_ak47") != std::string::npos) {
+            addWeapon(std::make_shared<Ak47>());
+        }
 
-    if (tag.str().find("Bonus_gold_ak47") != std::string::npos) {
-        addWeapon(std::make_shared<Gold_Ak47>());
-    }
+        else if (tag.str().find("Bonus_gold_ak47") != std::string::npos) {
+            addWeapon(std::make_shared<Gold_Ak47>());
+        }
 
-    if (tag.str().find("Bonus_rifle") != std::string::npos) {
-        addWeapon(std::make_shared<Rifle>());
-    }
+        else if (tag.str().find("Bonus_rifle") != std::string::npos) {
+            addWeapon(std::make_shared<Rifle>());
+        }
 
-    if (tag.str().find("Bonus_mac10") != std::string::npos) {
-        addWeapon(std::make_shared<Mac10>());
-    }
+        else if (tag.str().find("Bonus_mac10") != std::string::npos) {
+            addWeapon(std::make_shared<Mac10>());
+        }
 
-    if (tag.str().find("Bonus_silencer") != std::string::npos) {
-        addWeapon(std::make_shared<Silencer>());
-    }
+        else if (tag.str().find("Bonus_silencer") != std::string::npos) {
+            addWeapon(std::make_shared<Silencer>());
+        }
 
-    if (tag.str().find("Bonus_bat") != std::string::npos) {
-        addWeapon(std::make_shared<Bat>());
-    }
+        else if (tag.str().find("Bonus_bat") != std::string::npos) {
+            addWeapon(std::make_shared<Bat>());
+        }
 
-    if (tag.str().find("Bonus_knife") != std::string::npos) {
-        addWeapon(std::make_shared<Knife>());
-    }
+        else if (tag.str().find("Bonus_knife") != std::string::npos) {
+            addWeapon(std::make_shared<Knife>());
+        }
 
-    if (tag.str().find("Bonus_katana") != std::string::npos) {
-        addWeapon(std::make_shared<Katana>());
-    }
+        if (tag.str().find("Bonus_katana") != std::string::npos) {
+            addWeapon(std::make_shared<Katana>());
+        }
 
-    if (tag.str().find("Bonus_hill") != std::string::npos) {
-        setFullHealth();
-    }
+        if (tag.str().find("Bonus_hill") != std::string::npos) {
+            setFullHealth();
+        }
 
-    if (tag.str().find("Bonus_ability") != std::string::npos) {
-        setFullAbility();
-    }
+        if (tag.str().find("Bonus_ability") != std::string::npos) {
+            setFullAbility();
+        }
 
-    if (tag.str().find("Bonus") != std::string::npos) {
-        EventHandler::call<void(const std::string&)>(Event("take_bonus"), tag.str());
+        if (tag.str().find("Bonus") != std::string::npos) {
+            EventHandler::call<void(const std::string&)>(Event("take_bonus"), tag.str());
+        }
     }
 }
 
