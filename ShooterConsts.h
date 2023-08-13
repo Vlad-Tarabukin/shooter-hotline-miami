@@ -13,6 +13,7 @@ namespace ShooterConsts {
     const double ABILITY_MAX = 10;
     const double JUMP_HEIGHT = 3;
     const double WALK_SPEED = 10;
+    const double MELEE_ATTACK_RANGE = 2.5;
     const double MOUSE_SENSITIVITY = 1.0 / 1000.0;
     const double SLOW_MO_COEFFICIENT = 5;
     const double FIRE_DISTANCE = 1000;
@@ -26,6 +27,7 @@ namespace ShooterConsts {
     const std::string ABILITY_OBJ = "obj/items/ability.obj";
     const std::string HILL_OBJ = "obj/items/hill.obj";
     const std::string RELOAD_SOUND = "sound/weapons/reload.ogg";
+    const std::string MELEE_FIRE_SOUND = "sound/weapons/melee.ogg";
     const std::string GUN_OBJ = "obj/items/gun.obj";
     const std::string GUN_FIRE_SOUND = "sound/weapons/gun.ogg";
     const std::string AK47_OBJ = "obj/items/ak47.obj";
@@ -40,6 +42,9 @@ namespace ShooterConsts {
     const std::string MAC10_FIRE_SOUND = "sound/weapons/mac10.ogg";
     const std::string SILENCER_OBJ = "obj/items/silencer.obj";
     const std::string SILENCER_FIRE_SOUND = "sound/weapons/silencer.ogg";
+    const std::string BAT_OBJ = "obj/items/bat.obj";
+    const std::string KNIFE_OBJ = "obj/items/knife.obj";
+    const std::string KATANA_OBJ = "obj/items/katana.obj";
 
     const std::string CUBE_OBJ = "obj/other/cube.obj";
     const std::string MAP_OBJ = "obj/maps/map1.obj";

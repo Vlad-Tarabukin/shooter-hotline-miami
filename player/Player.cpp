@@ -10,8 +10,6 @@
 #include <io/Screen.h>
 
 #include "Player.h"
-#include "../weapon/Mac10.h"
-#include "../weapon/Silencer.h"
 
 Player::Player(ObjectNameTag name, const std::string &filename, const Vec3D &scale) : RigidBody(std::move(name), filename, scale) {
     setAcceleration(Vec3D{0, -ShooterConsts::GRAVITY, 0});
@@ -55,6 +53,18 @@ void Player::collisionWithObject(const ObjectNameTag &tag, std::shared_ptr<Rigid
 
     if (tag.str().find("Bonus_silencer") != std::string::npos) {
         addWeapon(std::make_shared<Silencer>());
+    }
+
+    if (tag.str().find("Bonus_bat") != std::string::npos) {
+        addWeapon(std::make_shared<Bat>());
+    }
+
+    if (tag.str().find("Bonus_knife") != std::string::npos) {
+        addWeapon(std::make_shared<Knife>());
+    }
+
+    if (tag.str().find("Bonus_katana") != std::string::npos) {
+        addWeapon(std::make_shared<Katana>());
     }
 
     if (tag.str().find("Bonus_hill") != std::string::npos) {
@@ -113,6 +123,9 @@ void Player::reInitWeapons() {
     addWeapon(std::make_shared<Rifle>());
     addWeapon(std::make_shared<Mac10>());
     addWeapon(std::make_shared<Silencer>());
+    addWeapon(std::make_shared<Bat>());
+    addWeapon(std::make_shared<Knife>());
+    addWeapon(std::make_shared<Katana>());
     selectWeapon(0);
 
     EventHandler::call<void(std::shared_ptr<Weapon>)>(Event("add_weapon"),
@@ -185,6 +198,20 @@ void Player::fireWeaponAnimation() {
                                         _weapons[_selectedWeapon],
                                         _weapons[_selectedWeapon]->fireDelay(),
                                         _weapons[_selectedWeapon]->fireDelay()/3,
+                                        Animation::LoopOut::None,
+                                        Animation::InterpolationType::Cos);
+}
+
+void Player::meleeFireWeaponAnimation() {
+    Timeline::addAnimation<ARotateLeft>(AnimationListTag("melee_fire_weapon"),
+                                        _weapons[_selectedWeapon],
+                                        1.5, _weapons[_selectedWeapon]->fireDelay()*0.2,
+                                        Animation::LoopOut::None,
+                                        Animation::InterpolationType::Cos);
+    Timeline::addAnimation<AWait>(AnimationListTag("melee_fire_weapon"), _weapons[_selectedWeapon]->fireDelay()*0.2);
+    Timeline::addAnimation<ARotateLeft>(AnimationListTag("melee_fire_weapon"),
+                                        _weapons[_selectedWeapon],
+                                        -1.5, _weapons[_selectedWeapon]->fireDelay()*0.6,
                                         Animation::LoopOut::None,
                                         Animation::InterpolationType::Cos);
 }

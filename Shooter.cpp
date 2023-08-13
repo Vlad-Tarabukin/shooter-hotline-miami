@@ -82,6 +82,7 @@ void Shooter::start() {
                 removePlayer(targetId);
             });
     EventHandler::listen<void()>(Event("fire"), [this](){ player->fireWeaponAnimation(); });
+    EventHandler::listen<void()>(Event("melee_fire"), [this](){ player->meleeFireWeaponAnimation(); });
     EventHandler::listen<void(const Vec3D&, const Vec3D&)>(
             Event("your_bullet"),
             [this](const Vec3D &from, const Vec3D &to) {
@@ -329,7 +330,7 @@ void Shooter::drawPlayerStats() {
         tKills.setFont(*ResourceManager::loadFont(Consts::NINJA_FONT));
         screen->drawText(tKills);
     }
-
+    if (!player->weapon()->isMelee()){
     sf::Text tFirst;
     tFirst.setCharacterSize(150);
     tFirst.setFillColor(sf::Color(255, 25, 75, 255));
@@ -351,6 +352,7 @@ void Shooter::drawPlayerStats() {
     tSecond.setFillColor(sf::Color(81, 247, 255, 255));
     tSecond.setPosition(50, static_cast<double>(screen->height() - 133));
     screen->drawText(tSecond);
+    }
 }
 
 void Shooter::play() {

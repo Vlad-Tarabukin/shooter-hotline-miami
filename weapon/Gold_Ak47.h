@@ -10,7 +10,7 @@
 
 class Gold_Ak47 final : public Weapon {
 public:
-    explicit Gold_Ak47() : Weapon(200, 60, 1.5, 0.07, 50, 1.0,
+    explicit Gold_Ak47() : Weapon(200, 60, 1.5, 0.07, 50, 1.0, false,
                                   ShooterConsts::GOLD_AK47_FIRE_SOUND,
                                   ShooterConsts::RELOAD_SOUND, ObjectNameTag("gold_ak47"),
                                   ShooterConsts::GOLD_AK47_OBJ, Vec3D{3, 3, 3}, Vec3D{-2.3, 0.8, 1.8},

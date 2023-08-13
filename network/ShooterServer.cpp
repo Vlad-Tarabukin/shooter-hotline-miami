@@ -203,6 +203,21 @@ void ShooterServer::generateBonuses() {
     _bonuses.insert({"Bonus_silencer_2", std::make_shared<BonusInfo>(
             BonusInfo{Vec3D(-40.5, 8, 34), -2 * ShooterConsts::BONUS_RECHARGE_TIME, true})});
 
+    _bonuses.insert({"Bonus_bat_1", std::make_shared<BonusInfo>(
+            BonusInfo{Vec3D(-27, 5, 20), -2 * ShooterConsts::BONUS_RECHARGE_TIME, true})});
+    _bonuses.insert({"Bonus_bat_2", std::make_shared<BonusInfo>(
+            BonusInfo{Vec3D(27, 5, -20), -2 * ShooterConsts::BONUS_RECHARGE_TIME, true})});
+
+    _bonuses.insert({"Bonus_knife_1", std::make_shared<BonusInfo>(
+            BonusInfo{Vec3D(80, 28, -35), -2 * ShooterConsts::BONUS_RECHARGE_TIME, true})});
+    _bonuses.insert({"Bonus_knife_2", std::make_shared<BonusInfo>(
+            BonusInfo{Vec3D(-80, 28, 35), -2 * ShooterConsts::BONUS_RECHARGE_TIME, true})});
+
+    _bonuses.insert({"Bonus_katana_1", std::make_shared<BonusInfo>(
+            BonusInfo{Vec3D(50, 20, 45), -2 * ShooterConsts::BONUS_RECHARGE_TIME, true})});
+    _bonuses.insert({"Bonus_katana_2", std::make_shared<BonusInfo>(
+            BonusInfo{Vec3D(-50, 20, -45), -2 * ShooterConsts::BONUS_RECHARGE_TIME, true})});
+
     _bonuses.insert({"Bonus_hill_1", std::make_shared<BonusInfo>(
             BonusInfo{Vec3D(-40, -2, 45), -2 * ShooterConsts::BONUS_RECHARGE_TIME, true})});
     _bonuses.insert({"Bonus_hill_2", std::make_shared<BonusInfo>(

@@ -18,6 +18,11 @@
 #include "../weapon/Gun.h"
 #include "../weapon/Gold_Ak47.h"
 #include "../weapon/Rifle.h"
+#include "../weapon/Mac10.h"
+#include "../weapon/Silencer.h"
+#include "../weapon/Bat.h"
+#include "../weapon/Knife.h"
+#include "../weapon/Katana.h"
 #include "../ShooterConsts.h"
 
 
@@ -97,6 +102,8 @@ public:
     void selectWeaponAnimation();
 
     void fireWeaponAnimation();
+
+    void meleeFireWeaponAnimation();
 
     void reloadWeaponAnimation();
 };
