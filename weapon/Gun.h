@@ -11,7 +11,7 @@
 class Gun final : public Weapon {
 public:
     explicit Gun() : Weapon(30, 6, 2.0, 0.3, 150, 3.0, false,
-                            ShooterConsts::GUN_FIRE_SOUND, ShooterConsts::RELOAD_SOUND, ObjectNameTag("gun"),
+                            ShooterConsts::GUN_FIRE_SOUND, false, ShooterConsts::RELOAD_SOUND, ObjectNameTag("gun"),
                             ShooterConsts::GUN_OBJ, Vec3D{3, 3, 3},
                             Vec3D{-2.2, 1.0, 2.0}, Vec3D{0, 0, 0}) {}
 };

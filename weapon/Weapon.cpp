@@ -11,12 +11,12 @@
 using namespace std;
 
 Weapon::Weapon(int initialPack, int clipCapacity, double reloadTime, double fireDelay, double damage, double spreading, bool isMelee,
-               std::string fireSound, std::string reloadSound, ObjectNameTag weaponName, const std::string &objFileName,
+               std::string fireSound, bool keepPlaying, std::string reloadSound, ObjectNameTag weaponName, const std::string &objFileName,
                const Vec3D &s, const Vec3D &t, const Vec3D &r) : RigidBody(std::move(weaponName), objFileName),
                                                                  _initialPack(initialPack), _clipCapacity(clipCapacity),
                                                                  _reloadTime(reloadTime), _fireDelay(fireDelay),
                                                                  _damage(damage), _spreading(spreading),
-                                                                 _isMelee(isMelee), _fireSound(std::move(fireSound)),
+                                                                 _isMelee(isMelee), _fireSound(std::move(fireSound)), _keepPlaying(keepPlaying),
                                                                  _reloadSound(std::move(reloadSound)) {
     _stockAmmo = _initialPack - _clipCapacity;
     _clipAmmo = _clipCapacity;
@@ -59,7 +59,9 @@ FireInformation Weapon::fire(std::function<IntersectionInformation(const Vec3D &
     _lastFireTime = Time::time();
     _clipAmmo -= _isMelee ? 0 : 1;
 
-    SoundController::loadAndPlay(SoundTag("fireSound_" + name().str()), _fireSound);
+    if(!_keepPlaying || SoundController::getStatus(SoundTag("fireSound_" + name().str())) != sf::Sound::Status::Playing) {
+        SoundController::loadAndPlay(SoundTag("fireSound_" + name().str()), _fireSound);
+    }
     Log::log("Weapon::fire (" + std::to_string(_stockAmmo) + " : " + std::to_string(_clipAmmo) + ")");
 
     EventHandler::call<void()>(Event(_isMelee ? "melee_fire" : "fire"));

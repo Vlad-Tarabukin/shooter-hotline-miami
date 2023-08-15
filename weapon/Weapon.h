@@ -36,6 +36,8 @@ private:
     const bool _isMelee = false;
 
     const std::string _fireSound;
+    const bool _keepPlaying = false;
+
     const std::string _reloadSound;
 
     double _lastFireTime = std::numeric_limits<double>::min();
@@ -52,7 +54,7 @@ protected:
 
 public:
     Weapon(int initialPack, int clipCapacity, double reloadTime, double fireDelay, double damage, double spreading, bool isMelee,
-           std::string fireSound, std::string reloadSound, ObjectNameTag weaponName, const std::string &objFileName,
+           std::string fireSound, bool keepPlaying, std::string reloadSound, ObjectNameTag weaponName, const std::string &objFileName,
            const Vec3D &s, const Vec3D &t, const Vec3D &r);
 
     Weapon(double fireDelay, double damage,  bool isMelee, std::string fireSound, ObjectNameTag weaponName,

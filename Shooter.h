@@ -52,6 +52,8 @@ private:
     void addWeapon(std::shared_ptr<Weapon> weapon);
     void removeWeapon(std::shared_ptr<Weapon> weapon);
     void changeEnemyWeapon(const std::string &weaponName, sf::Uint16 enemyId);
+    void addFlame(const Vec3D &position, const Vec3D &direction, bool isEnemy);
+    void removeFlame(ObjectNameTag tag);
 
 public:
     Shooter() : mainMenu(screen, mouse) {};

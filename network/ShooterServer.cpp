@@ -143,6 +143,17 @@ void ShooterServer::processCustomPacket(sf::Packet &packet, sf::Uint16 senderId)
             }
 
             break;
+        case ShooterMsgType::AddFlame:
+            packet >> dbuff[0] >> dbuff[1] >> dbuff[2] >> dbuff[3] >> dbuff[4] >> dbuff[5];
+            sendPacket << MsgType::Custom << ShooterMsgType::AddFlame << dbuff[0] << dbuff[1] << dbuff[2] << dbuff[3]
+                       << dbuff[4] << dbuff[5];
+            for (auto &player : _players) {
+                if (player.first != senderId) {
+                    _socket.send(sendPacket, player.first);
+                }
+            }
+
+            break;
         case ShooterMsgType::newMessage:
             
             packet >> message;
@@ -202,6 +213,9 @@ void ShooterServer::generateBonuses() {
             BonusInfo{Vec3D(40.5, 8, -34), -2 * ShooterConsts::BONUS_RECHARGE_TIME, true})});
     _bonuses.insert({"Bonus_silencer_2", std::make_shared<BonusInfo>(
             BonusInfo{Vec3D(-40.5, 8, 34), -2 * ShooterConsts::BONUS_RECHARGE_TIME, true})});
+
+    _bonuses.insert({"Bonus_flamethrower_1", std::make_shared<BonusInfo>(
+            BonusInfo{Vec3D(0, 100, 0), -2 * ShooterConsts::BONUS_RECHARGE_TIME, true})});
 
     _bonuses.insert({"Bonus_bat_1", std::make_shared<BonusInfo>(
             BonusInfo{Vec3D(-27, 5, 20), -2 * ShooterConsts::BONUS_RECHARGE_TIME, true})});

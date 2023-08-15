@@ -37,6 +37,11 @@ ShooterClient::ShooterClient(std::shared_ptr<Player> player) : _player(player) {
             Event("change_weapon"),
             [this](const std::string &name){ changeWeapon(name); }
             );
+    EventHandler::listen<void(const Vec3D&, const Vec3D&)>(
+            Event("your_flame"),
+            [this](const Vec3D &position, const Vec3D &direction) {
+                sendFlame(position, direction);
+            });
 }
 
 void ShooterClient::updatePacket() {
@@ -264,6 +269,17 @@ void ShooterClient::processCustomPacket(sf::Packet &packet) {
                     Event("change_enemy_weapon"), tmp, buffId[0]);
 
             break;
+        case ShooterMsgType::AddFlame:
+
+            if (buffId[0] != _socket.ownId()) {
+                packet >> dbuff[0] >> dbuff[1] >> dbuff[2] >> dbuff[3] >> dbuff[4] >> dbuff[5];
+
+                EventHandler::call<void(const Vec3D&, const Vec3D&, bool)>(
+                        Event("add_flame"),
+                        Vec3D(dbuff[0], dbuff[1], dbuff[2]), Vec3D(dbuff[3], dbuff[4], dbuff[5]), true);
+            }
+
+            break;
         case ShooterMsgType::newMessage:
             
             packet >> name >> message;
@@ -314,6 +330,14 @@ void ShooterClient::changeWeapon(const std::string &weaponName) {
 
     packet << MsgType::Custom << ShooterMsgType::ChangeWeapon << weaponName;
     _socket.sendRely(packet, _socket.serverId());
+}
+
+void ShooterClient::sendFlame(const Vec3D &position, const Vec3D &direction) {
+    sf::Packet packet;
+
+    packet << MsgType::Custom << ShooterMsgType::AddFlame << position.x() << position.y() << position.z() << direction.x() << direction.y()
+           << direction.z();
+    _socket.send(packet, _socket.serverId());
 }
 
 void ShooterClient::addPlayer(sf::Uint16 id, std::shared_ptr<Player> player) {

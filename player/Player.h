@@ -23,6 +23,7 @@
 #include "../weapon/Bat.h"
 #include "../weapon/Knife.h"
 #include "../weapon/Katana.h"
+#include "../weapon/Flamethrower.h"
 #include "../ShooterConsts.h"
 
 

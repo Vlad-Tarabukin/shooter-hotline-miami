@@ -18,7 +18,12 @@ namespace ShooterConsts {
     const double SLOW_MO_COEFFICIENT = 5;
     const double FIRE_DISTANCE = 1000;
     const double BONUS_RECHARGE_TIME = 30;
-    const int MAX_MESSAGE_LENGTH = 70;
+    const int MAX_MESSAGE_LENGTH = 7;
+
+    const double FLAME_DAMAGE = 15;
+    const double FLAME_VELOCITY = 120;
+    const double FLAME_SPAWN_DISTANCE = 2.5;
+    const double FLAME_LIFETIME = 0.4;
 
     // String constants
     const std::string PLAYER_NAME = "Player";
@@ -42,9 +47,13 @@ namespace ShooterConsts {
     const std::string MAC10_FIRE_SOUND = "sound/weapons/mac10.ogg";
     const std::string SILENCER_OBJ = "obj/items/silencer.obj";
     const std::string SILENCER_FIRE_SOUND = "sound/weapons/silencer.ogg";
+    const std::string FLAMETHROWER_OBJ = "obj/items/flamethrower.obj";
+    const std::string FLAMETHROWER_FIRE_SOUND = "sound/weapons/flamethrower.ogg";
     const std::string BAT_OBJ = "obj/items/bat.obj";
     const std::string KNIFE_OBJ = "obj/items/knife.obj";
     const std::string KATANA_OBJ = "obj/items/katana.obj";
+
+    const std::string FLAME_OBJ = "obj/items/flame.obj";
 
     const std::string CUBE_OBJ = "obj/other/cube.obj";
     const std::string MAP_OBJ = "obj/maps/map1.obj";

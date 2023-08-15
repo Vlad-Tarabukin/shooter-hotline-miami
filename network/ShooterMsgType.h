@@ -15,6 +15,7 @@ enum class ShooterMsgType {
     AddBonus,
     RemoveBonus,
     ChangeWeapon,
+    AddFlame,
     newMessage
 };
 

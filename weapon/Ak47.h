@@ -11,7 +11,7 @@
 class Ak47 final : public Weapon {
 public:
     explicit Ak47() : Weapon(100, 25, 3.0, 0.12, 50, 2.0, false,
-                             ShooterConsts::AK47_FIRE_SOUND, ShooterConsts::RELOAD_SOUND,
+                             ShooterConsts::AK47_FIRE_SOUND, false, ShooterConsts::RELOAD_SOUND,
                              ObjectNameTag("ak47"), ShooterConsts::AK47_OBJ,
                              Vec3D{3, 3, 3}, Vec3D{-2.3, 0.8, 1.8},Vec3D{0, 0, 0}) {}
 };

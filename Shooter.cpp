@@ -13,6 +13,7 @@
 #include "ShooterConsts.h"
 #include "network/Chat.h"
 #include "3dzavr/engine/Consts.h"
+#include "weapon/Flame.h"
 
 // Read server/client settings and start both.
 // If client doesn't connect to the localhost - server doesn't start.
@@ -107,6 +108,16 @@ void Shooter::start() {
             Event("change_enemy_weapon"),
             [this](const std::string &weaponName, sf::Uint16 enemyId) {
                 changeEnemyWeapon(weaponName, enemyId);
+            });
+    EventHandler::listen<void(const Vec3D &position, const Vec3D &direction, bool isEnemy)>(
+            Event("add_flame"),
+            [this](const Vec3D &position, const Vec3D &direction, bool isEnemy) {
+                addFlame(position, direction, isEnemy);
+            });
+    EventHandler::listen<void(ObjectNameTag tag)>(
+            Event("remove_flame"),
+            [this](ObjectNameTag tag) {
+                removeFlame(tag);
             });
     EventHandler::listen<void(const std::string&, const Vec3D&)>(
             Event("add_bonus"),
@@ -499,4 +510,28 @@ void Shooter::changeEnemyWeapon(const std::string &weaponName, sf::Uint16 enemyI
 
 void Shooter::removeWeapon(std::shared_ptr<Weapon> weapon) {
     world->removeBody(weapon->name());
+}
+
+void Shooter::addFlame(const Vec3D &position, const Vec3D &direction, bool isEnemy) {
+    std::shared_ptr<Flame> projectile = std::make_shared<Flame>();
+    world->addBody(projectile);
+    projectile->translateToPoint(position + direction * ShooterConsts::FLAME_SPAWN_DISTANCE);
+    Vec3D randV(12.0 * (1.0 - 2.0 * static_cast<double>(rand()) / RAND_MAX),
+                12.0 * (1.0 - 2.0 * static_cast<double>(rand()) / RAND_MAX),
+                12.0 * (1.0 - 2.0 * static_cast<double>(rand()) / RAND_MAX));
+    projectile->setVelocity(direction * ShooterConsts::FLAME_VELOCITY + randV);
+
+    if(isEnemy) {
+        projectile->setDamage(0);
+    }
+
+
+    Timeline::addAnimation<AScale>(AnimationListTag(projectile->name().str() + "_remove"), projectile, Vec3D{0.1, 0.1, 0.1},
+                                   ShooterConsts::FLAME_LIFETIME);
+    Timeline::addAnimation<AFunction>(AnimationListTag(projectile->name().str() + "_remove"), [this, projectile](){
+        removeFlame(projectile->name()); }, 1, ShooterConsts::FLAME_LIFETIME);
+}
+
+void Shooter::removeFlame(ObjectNameTag tag) {
+    world->removeBody(tag);
 }

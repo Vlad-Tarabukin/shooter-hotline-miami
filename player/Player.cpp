@@ -57,6 +57,10 @@ void Player::collisionWithObject(const ObjectNameTag &tag, std::shared_ptr<Rigid
             addWeapon(std::make_shared<Silencer>());
         }
 
+        else if (tag.str().find("Bonus_flamethrower") != std::string::npos) {
+            addWeapon(std::make_shared<Flamethrower>());
+        }
+
         else if (tag.str().find("Bonus_bat") != std::string::npos) {
             addWeapon(std::make_shared<Bat>());
         }
@@ -126,6 +130,7 @@ void Player::reInitWeapons() {
     addWeapon(std::make_shared<Rifle>());
     addWeapon(std::make_shared<Mac10>());
     addWeapon(std::make_shared<Silencer>());
+    addWeapon(std::make_shared<Flamethrower>());
     addWeapon(std::make_shared<Bat>());
     addWeapon(std::make_shared<Knife>());
     addWeapon(std::make_shared<Katana>());

@@ -29,6 +29,8 @@ private:
 
     void changeWeapon(const std::string &weaponName);
 
+    void sendFlame(const Vec3D &position, const Vec3D &direction);
+
 public:
     explicit ShooterClient(std::shared_ptr<Player> player);
 
