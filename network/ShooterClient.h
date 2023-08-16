@@ -31,6 +31,8 @@ private:
 
     void sendFlame(const Vec3D &position, const Vec3D &direction);
 
+    void sendFireSound(const Vec3D &position, const std::string &firesound);
+
 public:
     explicit ShooterClient(std::shared_ptr<Player> player);
 

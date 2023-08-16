@@ -113,6 +113,16 @@ void ShooterServer::processCustomPacket(sf::Packet &packet, sf::Uint16 senderId)
             }
 
             break;
+        case ShooterMsgType::FireSound:
+            packet >> dbuff[0] >> dbuff[1] >> dbuff[2] >> tmp;
+            sendPacket << MsgType::Custom << ShooterMsgType::FireSound << dbuff[0] << dbuff[1] << dbuff[2] << tmp;
+            for (auto &player : _players) {
+                if (player.first != senderId) {
+                    _socket.send(sendPacket, player.first);
+                }
+            }
+
+            break;
         case ShooterMsgType::RemoveBonus:
             packet >> tmp;
 

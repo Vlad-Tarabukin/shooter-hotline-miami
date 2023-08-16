@@ -61,6 +61,7 @@ FireInformation Weapon::fire(std::function<IntersectionInformation(const Vec3D &
 
     if(!_keepPlaying || SoundController::getStatus(SoundTag("fireSound_" + name().str())) != sf::Sound::Status::Playing) {
         SoundController::loadAndPlay(SoundTag("fireSound_" + name().str()), _fireSound);
+        EventHandler::call<void(Vec3D, std::string)>(Event("your_fire_sound"), position, _fireSound);
     }
     Log::log("Weapon::fire (" + std::to_string(_stockAmmo) + " : " + std::to_string(_clipAmmo) + ")");
 

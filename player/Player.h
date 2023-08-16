@@ -111,8 +111,6 @@ public:
     void meleeFireWeaponAnimation();
 
     void reloadWeaponAnimation();
-
-    void throwWeapon();
 };
 
 

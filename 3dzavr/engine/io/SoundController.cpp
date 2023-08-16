@@ -43,6 +43,20 @@ void SoundController::loadAndPlay(const SoundTag &soundTag, const std::string& f
     _instance->_sounds[soundTag].play();
 }
 
+void SoundController::loadAndPlayWithVolume(const SoundTag &soundTag, const std::string& filename, float volume) {
+    if (_instance == nullptr) {
+        return;
+    }
+    if (_instance->_sounds.count(soundTag) != 0) {
+        _instance->_sounds[soundTag] = sf::Sound(*ResourceManager::loadSoundBuffer(filename));
+    } else {
+        _instance->_sounds.emplace(soundTag, sf::Sound(*ResourceManager::loadSoundBuffer(filename)));
+    }
+
+    _instance->_sounds[soundTag].setVolume(soundTag == SoundTag("background") ? _musicVolume : _soundVolume * volume / 100);
+    _instance->_sounds[soundTag].play();
+}
+
 void SoundController::playSound(const SoundTag &soundTag) {
     if (_instance == nullptr) {
         return;

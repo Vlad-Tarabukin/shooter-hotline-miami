@@ -4,6 +4,7 @@
 
 #include <string>
 #include <utility>
+#include <cmath>
 
 #include <SFML/Network/Ftp.hpp>
 
@@ -31,6 +32,12 @@ ShooterClient::ShooterClient(std::shared_ptr<Player> player) : _player(player) {
             Event("your_bullet"),
             [this](const Vec3D &from, const Vec3D &to) {
                 sendTrace(from, to);
+            });
+
+    EventHandler::listen<void(const Vec3D&, const std::string&)>(
+            Event("your_fire_sound"),
+            [this](const Vec3D &position, const std::string &firesound) {
+                sendFireSound(position, firesound);
             });
 
     EventHandler::listen<void(const std::string&)>(
@@ -244,6 +251,21 @@ void ShooterClient::processCustomPacket(sf::Packet &packet) {
             }
 
             break;
+        case ShooterMsgType::FireSound:
+
+            if (buffId[0] != _socket.ownId()) {
+                packet >> dbuff[0] >> dbuff[1] >> dbuff[2] >> tmp;
+
+                double xDiff = _player->position().x() - dbuff[0];
+                double yDiff = _player->position().y() - dbuff[1];
+                double zDiff = _player->position().z() - dbuff[2];
+
+                double distance = std::sqrt(xDiff*xDiff + yDiff*yDiff + zDiff*zDiff);
+
+                SoundController::loadAndPlayWithVolume(SoundTag("enemy_firesound"), tmp, 100 / std::clamp((int)(distance / 15), 1, 100));
+            }
+
+            break;
         case ShooterMsgType::InitBonuses:
             while (packet >> tmp >> dbuff[0] >> dbuff[1] >> dbuff[2]) {
                 EventHandler::call<void(const std::string&, const Vec3D&)>(
@@ -337,6 +359,13 @@ void ShooterClient::sendFlame(const Vec3D &position, const Vec3D &direction) {
 
     packet << MsgType::Custom << ShooterMsgType::AddFlame << position.x() << position.y() << position.z() << direction.x() << direction.y()
            << direction.z();
+    _socket.send(packet, _socket.serverId());
+}
+
+void ShooterClient::sendFireSound(const Vec3D &position, const std::string &firesound) {
+    sf::Packet packet;
+
+    packet << MsgType::Custom << ShooterMsgType::FireSound << position.x() << position.y() << position.z() << firesound;
     _socket.send(packet, _socket.serverId());
 }
 

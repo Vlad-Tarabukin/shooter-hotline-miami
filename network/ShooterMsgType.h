@@ -11,6 +11,7 @@ enum class ShooterMsgType {
     Damage,
     Kill,
     FireTrace,
+    FireSound,
     InitBonuses,
     AddBonus,
     RemoveBonus,

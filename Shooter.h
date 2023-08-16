@@ -60,6 +60,7 @@ private:
     void changeEnemyWeapon(const std::string &weaponName, sf::Uint16 enemyId);
     void addFlame(const Vec3D &position, const Vec3D &direction, bool isEnemy);
     void removeFlame(ObjectNameTag tag);
+    void playFarSound(const Vec3D&, const std::string&);
 
 public:
     Shooter() : mainMenu(screen, mouse) {};

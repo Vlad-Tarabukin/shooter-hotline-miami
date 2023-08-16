@@ -43,6 +43,8 @@ public:
 
     static void loadAndPlay(const SoundTag &soundTag, const std::string& filename);
 
+    static void loadAndPlayWithVolume(const SoundTag &soundTag, const std::string& filename, float volume);
+
     static void setSoundVolume(float volume);
     static void setMusicVolume(float volume);
 
