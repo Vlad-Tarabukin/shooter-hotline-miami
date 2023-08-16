@@ -166,13 +166,54 @@ void Shooter::start() {
         SoundController::loadAndPlay(SoundTag("click"), ShooterConsts::CLICK_SOUND);
     }, "Respawn", 5, 5, ShooterConsts::MAIN_MENU_GUI, {0, 66}, {0, 86}, {0, 46}, Consts::PIXEL_FONT, {255, 255, 255});
 
-    mainMenu.addButton(300, 450, 80, 10, [this]() {
+    mainMenu.addButton(125, 450, 10, 10, [this](){
+        soundVolume = std::max(--soundVolume, 0);
+        updateVolume();
+        mainMenu._buttons[4].setText("Snd " + soundVolumeDisplay);
+        }, "<", 5, 5,ShooterConsts::MAIN_MENU_GUI, {0, 66}, {0, 86}, {0, 86}, Consts::PIXEL_FONT, {255, 255, 255});
+
+    mainMenu.addButton(475, 450, 10, 10, [this](){
+        soundVolume = std::min(++soundVolume, 10);
+        updateVolume();
+        mainMenu._buttons[4].setText("Snd " + soundVolumeDisplay);
+        }, ">", 5, 5,ShooterConsts::MAIN_MENU_GUI, {0, 66}, {0, 86}, {0, 86}, Consts::PIXEL_FONT, {255, 255, 255});
+
+    mainMenu.addButton(300, 450, 60, 10, [this](){ }, "Snd " + soundVolumeDisplay, 5, 5,
+                       ShooterConsts::MAIN_MENU_GUI, {0, 66}, {0, 86}, {0, 86}, Consts::PIXEL_FONT, {255, 255, 255});
+
+    mainMenu.addButton(125, 500, 10, 10, [this](){
+        musicVolume = std::max(--musicVolume, 0);
+        updateVolume();
+        mainMenu._buttons[7].setText("Mus " + musicVolumeDisplay);
+        }, "<", 5, 5,ShooterConsts::MAIN_MENU_GUI, {0, 66}, {0, 86}, {0, 86}, Consts::PIXEL_FONT, {255, 255, 255});
+
+    mainMenu.addButton(475, 500, 10, 10, [this](){
+        musicVolume = std::min(++musicVolume, 10);
+        updateVolume();
+        mainMenu._buttons[7].setText("Mus " + musicVolumeDisplay);
+        }, ">", 5, 5,ShooterConsts::MAIN_MENU_GUI, {0, 66}, {0, 86}, {0, 86}, Consts::PIXEL_FONT, {255, 255, 255});
+
+    mainMenu.addButton(300, 500, 60, 10, [this](){ }, "Mus " + musicVolumeDisplay, 5, 5,
+                       ShooterConsts::MAIN_MENU_GUI, {0, 66}, {0, 86}, {0, 86}, Consts::PIXEL_FONT, {255, 255, 255});
+
+    mainMenu.addButton(300, 550, 80, 10, [this]() {
         client->disconnect();
         server->stop();
         this->exit();
     }, "Exit", 5, 5, ShooterConsts::MAIN_MENU_GUI, {0, 66}, {0, 86}, {0, 46}, Consts::PIXEL_FONT, {255, 255, 255});
 
     client->setChatManager(chat);
+}
+
+void Shooter::updateVolume() {
+    musicVolumeDisplay = soundVolumeDisplay = "";
+    for (int i = 0; i < 10; ++i) {
+        soundVolumeDisplay += soundVolume > i ? "|" : ".";
+        musicVolumeDisplay += musicVolume > i ? "|" : ".";
+    }
+    SoundController::setMusicVolume(musicVolume * 10);
+    SoundController::setSoundVolume(soundVolume * 10);
+    mainMenu.update();
 }
 
 void Shooter::update() {
@@ -246,8 +287,6 @@ void Shooter::update() {
     if (SoundController::getStatus(SoundTag("background")) != sf::Sound::Status::Playing) {
         SoundController::loadAndPlay(SoundTag("background"), ShooterConsts::MUSIC[rand() % ShooterConsts::MUSIC.size()]);
     }
-    
-    
 }
 
 void Shooter::drawChat() {

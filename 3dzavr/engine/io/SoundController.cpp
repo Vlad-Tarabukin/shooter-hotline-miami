@@ -8,12 +8,25 @@
 
 SoundController *SoundController::_instance = nullptr;
 
+float SoundController::_soundVolume = 10;
+float SoundController::_musicVolume = 10;
 
 void SoundController::init() {
     delete _instance;
     _instance = new SoundController();
 
     Log::log("SoundController::init(): sound controller was initialized");
+}
+
+void SoundController::setSoundVolume(float volume) { _soundVolume = volume; }
+
+void SoundController::setMusicVolume(float volume) {
+    _musicVolume = volume;
+    for (auto&[soundTag, sound] : _instance->_sounds) {
+        if(soundTag == SoundTag("background")) {
+            sound.setVolume(volume);
+        }
+    }
 }
 
 void SoundController::loadAndPlay(const SoundTag &soundTag, const std::string& filename) {
@@ -26,6 +39,7 @@ void SoundController::loadAndPlay(const SoundTag &soundTag, const std::string& f
         _instance->_sounds.emplace(soundTag, sf::Sound(*ResourceManager::loadSoundBuffer(filename)));
     }
 
+    _instance->_sounds[soundTag].setVolume(soundTag == SoundTag("background") ? _musicVolume : _soundVolume);
     _instance->_sounds[soundTag].play();
 }
 

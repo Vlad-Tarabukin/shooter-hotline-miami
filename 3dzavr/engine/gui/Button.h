@@ -24,7 +24,7 @@ private:
 
     const std::function<void()> _click;
 
-    const std::string _textString;
+    std::string _textString;
 
     const double _sx{};
     const double _sy{};
@@ -58,6 +58,8 @@ public:
     void press();
 
     void init();
+
+    void setText(std::string text) { _text.setString(text);};
 
     [[nodiscard]] int x() const { return _x; }
 

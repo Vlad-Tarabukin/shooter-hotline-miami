@@ -16,7 +16,6 @@ class Window final {
 private:
     std::string _name;
     std::string _backTexture;
-    std::vector<Button> _buttons;
 
     sf::Sprite _back;
 
@@ -25,6 +24,8 @@ private:
     std::shared_ptr<Screen> _screen;
     std::shared_ptr<Mouse> _mouse;
 public:
+    std::vector<Button> _buttons;
+
     explicit Window(std::shared_ptr<Screen> screen, std::shared_ptr<Mouse> mouse, std::string name = "Menu",
                     std::string backTexture = "") : _screen(screen), _mouse(mouse),
                                                     _name(std::move(name)), _backTexture(std::move(backTexture)) {}

@@ -31,6 +31,9 @@ private:
 
     static SoundController *_instance;
 
+    static float _soundVolume;
+    static float _musicVolume;
+
     SoundController() = default;
 
 public:
@@ -39,6 +42,9 @@ public:
     SoundController &operator=(SoundController &) = delete;
 
     static void loadAndPlay(const SoundTag &soundTag, const std::string& filename);
+
+    static void setSoundVolume(float volume);
+    static void setMusicVolume(float volume);
 
     static void playSound(const SoundTag &soundTag);
     static void pauseSound(const SoundTag &soundTag);

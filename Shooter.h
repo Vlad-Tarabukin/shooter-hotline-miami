@@ -31,7 +31,13 @@ private:
 
     bool inGame = false;
     int fireTraces = 0;
+    int soundVolume = 1;
+    std::string soundVolumeDisplay = "|.........";
+    int musicVolume = 1;
+    std::string musicVolumeDisplay = "|.........";
     std::string current_map = ShooterConsts::BIG_MAP_OBJ;
+
+    void updateVolume();
 
     void start() override;
     void update() override;
