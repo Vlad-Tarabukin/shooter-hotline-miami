@@ -158,49 +158,64 @@ void Shooter::start() {
                            this->play();
                            SoundController::loadAndPlay(SoundTag("click"), ShooterConsts::CLICK_SOUND);
                        }, "Server: " + client->serverIp().toString(), 5, 5, ShooterConsts::MAIN_MENU_GUI, {0, 66}, {0, 86}, {0, 46},
-                       Consts::PIXEL_FONT, {255, 255, 255});
+                       Consts::PIXEL_FONT, {180, 180, 180}, {0, 0, 255}, {255, 255, 255});
     mainMenu.addButton(300, 400, 80, 10, [this]() {
         this->player->translateToPoint(Vec3D{0, 0, 0});
         this->player->setVelocity({});
         this->play();
         SoundController::loadAndPlay(SoundTag("click"), ShooterConsts::CLICK_SOUND);
-    }, "Respawn", 5, 5, ShooterConsts::MAIN_MENU_GUI, {0, 66}, {0, 86}, {0, 46}, Consts::PIXEL_FONT, {255, 255, 255});
+    }, "Respawn", 5, 5, ShooterConsts::MAIN_MENU_GUI, {0, 66}, {0, 86}, {0, 46}, Consts::PIXEL_FONT, {180, 180, 180}, {0, 0, 255}, {255, 255, 255});
 
     mainMenu.addButton(125, 450, 10, 10, [this](){
         soundVolume = std::max(--soundVolume, 0);
         updateVolume();
         mainMenu._buttons[4].setText("Snd " + soundVolumeDisplay);
-        }, "<", 5, 5,ShooterConsts::MAIN_MENU_GUI, {0, 66}, {0, 86}, {0, 86}, Consts::PIXEL_FONT, {255, 255, 255});
+        }, "<", 5, 5,ShooterConsts::MAIN_MENU_GUI, {0, 66}, {0, 86}, {0, 46}, Consts::PIXEL_FONT, {180, 180, 180}, {0, 0, 255}, {255, 255, 255});
 
     mainMenu.addButton(475, 450, 10, 10, [this](){
         soundVolume = std::min(++soundVolume, 10);
         updateVolume();
         mainMenu._buttons[4].setText("Snd " + soundVolumeDisplay);
-        }, ">", 5, 5,ShooterConsts::MAIN_MENU_GUI, {0, 66}, {0, 86}, {0, 86}, Consts::PIXEL_FONT, {255, 255, 255});
+        }, ">", 5, 5,ShooterConsts::MAIN_MENU_GUI, {0, 66}, {0, 86}, {0, 46}, Consts::PIXEL_FONT, {180, 180, 180}, {0, 0, 255}, {255, 255, 255});
 
-    mainMenu.addButton(300, 450, 60, 10, [this](){ }, "Snd " + soundVolumeDisplay, 5, 5,
-                       ShooterConsts::MAIN_MENU_GUI, {0, 66}, {0, 86}, {0, 86}, Consts::PIXEL_FONT, {255, 255, 255});
+    mainMenu.addButton(300, 450, 60, 10, [this](){
+        soundVolume = 0;
+        updateVolume();
+        mainMenu._buttons[4].setText("Snd ..........");
+        }, "Snd " + soundVolumeDisplay, 5, 5,
+                       ShooterConsts::MAIN_MENU_GUI, {0, 66}, {0, 86}, {0, 46}, Consts::PIXEL_FONT, {180, 180, 180}, {0, 0, 255}, {255, 255, 255});
 
     mainMenu.addButton(125, 500, 10, 10, [this](){
         musicVolume = std::max(--musicVolume, 0);
         updateVolume();
         mainMenu._buttons[7].setText("Mus " + musicVolumeDisplay);
-        }, "<", 5, 5,ShooterConsts::MAIN_MENU_GUI, {0, 66}, {0, 86}, {0, 86}, Consts::PIXEL_FONT, {255, 255, 255});
+        }, "<", 5, 5,ShooterConsts::MAIN_MENU_GUI, {0, 66}, {0, 86}, {0, 46}, Consts::PIXEL_FONT, {180, 180, 180}, {0, 0, 255}, {255, 255, 255});
 
     mainMenu.addButton(475, 500, 10, 10, [this](){
         musicVolume = std::min(++musicVolume, 10);
         updateVolume();
         mainMenu._buttons[7].setText("Mus " + musicVolumeDisplay);
-        }, ">", 5, 5,ShooterConsts::MAIN_MENU_GUI, {0, 66}, {0, 86}, {0, 86}, Consts::PIXEL_FONT, {255, 255, 255});
+        }, ">", 5, 5,ShooterConsts::MAIN_MENU_GUI, {0, 66}, {0, 86}, {0, 46}, Consts::PIXEL_FONT, {180, 180, 180}, {0, 0, 255}, {255, 255, 255});
 
-    mainMenu.addButton(300, 500, 60, 10, [this](){ }, "Mus " + musicVolumeDisplay, 5, 5,
-                       ShooterConsts::MAIN_MENU_GUI, {0, 66}, {0, 86}, {0, 86}, Consts::PIXEL_FONT, {255, 255, 255});
+    mainMenu.addButton(300, 500, 60, 10, [this](){
+        musicVolume = 0;
+        updateVolume();
+        mainMenu._buttons[7].setText("Mus ..........");
+        }, "Mus " + musicVolumeDisplay, 5, 5,
+                       ShooterConsts::MAIN_MENU_GUI, {0, 66}, {0, 86}, {0, 46}, Consts::PIXEL_FONT, {180, 180, 180}, {0, 0, 255}, {255, 255, 255});
 
     mainMenu.addButton(300, 550, 80, 10, [this]() {
+        SoundController::stopSound(SoundTag("background"));
+        playingMusicNumber = (playingMusicNumber + 1) % ShooterConsts::MUSIC.size();
+        SoundController::loadAndPlay(SoundTag("background"), ShooterConsts::MUSIC[playingMusicNumber]);
+    }, "Skip current track", 5, 5, ShooterConsts::MAIN_MENU_GUI, {0, 66}, {0, 86}, {0, 46}, Consts::PIXEL_FONT, {180, 180, 180}, {0, 0, 255}, {255, 255, 255});
+
+
+    mainMenu.addButton(300, 600, 80, 10, [this]() {
         client->disconnect();
         server->stop();
         this->exit();
-    }, "Exit", 5, 5, ShooterConsts::MAIN_MENU_GUI, {0, 66}, {0, 86}, {0, 46}, Consts::PIXEL_FONT, {255, 255, 255});
+    }, "Exit", 5, 5, ShooterConsts::MAIN_MENU_GUI, {0, 66}, {0, 86}, {0, 46}, Consts::PIXEL_FONT, {180, 180, 180}, {0, 0, 255}, {255, 255, 255});
 
     client->setChatManager(chat);
 }
@@ -285,7 +300,8 @@ void Shooter::update() {
 
     // background sounds and music control
     if (SoundController::getStatus(SoundTag("background")) != sf::Sound::Status::Playing) {
-        SoundController::loadAndPlay(SoundTag("background"), ShooterConsts::MUSIC[rand() % ShooterConsts::MUSIC.size()]);
+        playingMusicNumber = rand() % ShooterConsts::MUSIC.size();
+        SoundController::loadAndPlay(SoundTag("background"), ShooterConsts::MUSIC[playingMusicNumber]);
     }
 }
 
@@ -350,24 +366,22 @@ void Shooter::drawStatsTable() {
 void Shooter::drawPlayerStats() {
     // health bar
     double xPos = 10;
-    double yPos = screen->height() - 20;
+    double yPos = screen->height() - 45;
 
     int width = screen->width() / 2 - 20;
-    int height = 10;
+    int height = 30;
+
+    screen->drawTetragon(Vec2D{xPos + 8, yPos + 8},
+                         Vec2D{xPos + 8 + width * player->ability() / ShooterConsts::ABILITY_MAX, yPos + 8},
+                         Vec2D{xPos + 8 + width * player->ability() / ShooterConsts::ABILITY_MAX, yPos + 8 + height},
+                         Vec2D{xPos + 8, yPos + 8 + height},
+                         {255, 25, 75, 255});
 
     screen->drawTetragon(Vec2D{xPos, yPos},
                          Vec2D{xPos + width * player->health() / ShooterConsts::HEALTH_MAX, yPos},
                          Vec2D{xPos + width * player->health() / ShooterConsts::HEALTH_MAX, yPos + height},
                          Vec2D{xPos, yPos + height},
-                         {static_cast<sf::Uint8>((ShooterConsts::HEALTH_MAX - player->health()) /
-                                                 ShooterConsts::HEALTH_MAX * 255),
-                          static_cast<sf::Uint8>(player->health() * 255 / ShooterConsts::HEALTH_MAX), 0, 100});
-
-    screen->drawTetragon(Vec2D{xPos, yPos - 15},
-                         Vec2D{xPos + width * player->ability() / ShooterConsts::ABILITY_MAX, yPos - 15},
-                         Vec2D{xPos + width * player->ability() / ShooterConsts::ABILITY_MAX, yPos - 15 + height},
-                         Vec2D{xPos, yPos - 15 + height},
-                         {255, 168, 168, 100});
+                         {81, 247, 255, 255});
 
     auto balance = player->weapon()->balance();
 
@@ -385,22 +399,22 @@ void Shooter::drawPlayerStats() {
     tFirst.setCharacterSize(150);
     tFirst.setFillColor(sf::Color(255, 25, 75, 255));
     tFirst.setString(std::to_string((int) balance.first));
-    tFirst.setPosition(205, static_cast<double>(screen->height() - 195));
+    tFirst.setPosition(205, static_cast<double>(screen->height() - 215));
     tFirst.setFont(*ResourceManager::loadFont(Consts::HOTLINE_FONT));
     screen->drawText(tFirst);
     tFirst.setFillColor(sf::Color(81, 247, 255, 255));
-    tFirst.setPosition(200, static_cast<double>(screen->height() - 200));
+    tFirst.setPosition(200, static_cast<double>(screen->height() - 220));
     screen->drawText(tFirst);
 
     sf::Text tSecond;
     tSecond.setCharacterSize(85);
     tSecond.setFillColor(sf::Color(255, 25, 75, 255));
-    tSecond.setPosition(53, static_cast<double>(screen->height() - 130));
+    tSecond.setPosition(53, static_cast<double>(screen->height() - 150));
     tSecond.setString(std::to_string((int) balance.second));
     tSecond.setFont(*ResourceManager::loadFont(Consts::HOTLINE_FONT));
     screen->drawText(tSecond);
     tSecond.setFillColor(sf::Color(81, 247, 255, 255));
-    tSecond.setPosition(50, static_cast<double>(screen->height() - 133));
+    tSecond.setPosition(50, static_cast<double>(screen->height() - 153));
     screen->drawText(tSecond);
     }
 }

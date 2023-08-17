@@ -79,11 +79,15 @@ namespace ShooterConsts {
     const std::string NO_AMMO_SOUND = "sound/weapons/no_ammo.ogg";
 
     const std::vector<std::string> MUSIC = {"sound/music/AcidSpit.ogg",
+                                            "sound/music/BurningCoals.ogg",
+                                            "sound/music/Decade.ogg",
                                             "sound/music/Divide.ogg",
                                             "sound/music/FutureClub.ogg",
                                             "sound/music/LePerv.ogg",
+                                            "sound/music/NARC.ogg",
                                             "sound/music/Quixotic.ogg",
                                             "sound/music/RollerMobster.ogg",
+                                            "sound/music/Run.ogg",
                                             "sound/music/Technoir.ogg",};
 }
 

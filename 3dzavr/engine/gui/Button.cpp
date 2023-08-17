@@ -10,6 +10,7 @@
 void Button::select() {
     if (!_selected && !_pressed) {
         _button.setTextureRect(sf::IntRect(_selectedState.tx, _selectedState.ty, _w, _h));
+        _text.setFillColor(_textColorSelected);
         _selected = true;
     }
 }
@@ -17,11 +18,13 @@ void Button::select() {
 void Button::unSelect() {
     if (_selected && !_pressed) {
         _button.setTextureRect(sf::IntRect(_usualState.tx, _usualState.ty, _w, _h));
+        _text.setFillColor(_textColorUsual);
         _selected = false;
     }
 }
 
 void Button::press() {
+    _text.setFillColor(_textColorPressed);
     if (!_pressed) {
         _button.setTextureRect(sf::IntRect(_pressedState.tx, _pressedState.ty, _w, _h));
         if (_checkBox) {
@@ -46,17 +49,18 @@ void Button::init() {
     _text.setFont(*ResourceManager::loadFont(_font));
     _text.setString(_textString);
     _text.setCharacterSize(static_cast<unsigned int>((_h * _sy) / 2));
-    _text.setFillColor(_textColor);
+    _text.setFillColor(_textColorUsual);
     _text.setPosition(static_cast<float>(_x) - _text.getLocalBounds().width / 2.0f,
                       static_cast<float>(_y) - static_cast<float>(_h * _sy) / 2.0f + _text.getLocalBounds().height / 4.0f);
 }
 
 Button::Button(int x, int y, int width, int height, std::function<void()> click, std::string text, double sx,
                double sy, std::string texture, tPos usualState, tPos selectedState, tPos pressedState,
-               std::string font, sf::Color textColor) : _x(x), _y(y), _w(width), _h(height), _click(std::move(click)),
+               std::string font, sf::Color textColorUsual, sf::Color textColorPressed, sf::Color textColorSelected) : _x(x), _y(y), _w(width), _h(height), _click(std::move(click)),
                                                         _textString(std::move(text)), _sx(sx), _sy(sy),
                                                         _texture(std::move(texture)), _usualState(usualState),
                                                         _selectedState(selectedState), _pressedState(pressedState),
-                                                        _font(std::move(font)), _textColor(textColor) {
+                                                        _font(std::move(font)), _textColorUsual(textColorUsual),
+                                                        _textColorPressed(textColorPressed), _textColorSelected(textColorSelected) {
 
 }

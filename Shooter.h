@@ -35,6 +35,7 @@ private:
     std::string soundVolumeDisplay = "|.........";
     int musicVolume = 1;
     std::string musicVolumeDisplay = "|.........";
+    int playingMusicNumber;
     std::string current_map = ShooterConsts::BIG_MAP_OBJ;
 
     void updateVolume();

@@ -31,7 +31,7 @@ namespace Consts {
     // TODO: relative and absolute path needs to be well handled:
     const std::string PIXEL_FONT = "3dzavr/engine/fonts/joystix monospace.otf";
     const std::string HOTLINE_FONT = "3dzavr/engine/fonts/JusticeItalic-KX2l.otf";
-    const std::string NINJA_FONT = "3dzavr/engine/fonts/Shoguns Clan.ttf";
+    const std::string NINJA_FONT = "3dzavr/engine/fonts/BulletInYourHead.ttf";
 
     const double LARGEST_TIME_STEP = 1.0 / 15.0;
     const double TAP_DELAY = 0.2;

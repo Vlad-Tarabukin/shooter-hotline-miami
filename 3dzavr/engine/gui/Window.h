@@ -35,7 +35,8 @@ public:
                    const std::string &text = "_button", double sx = 1, double sy = 1,
                    const std::string &texture = "", tPos usualState = {}, tPos selectedState = {},
                    tPos pressedState = {},
-                   const std::string &font = Consts::PIXEL_FONT, sf::Color textColor = {255, 255, 255});
+                   const std::string &font = Consts::PIXEL_FONT, sf::Color textColorUsual = {180, 180, 180},
+                   sf::Color textColorPressed = {0, 0, 255}, sf::Color textColorSelected = {255, 255, 255});
 
     void setTitle(const std::string &title) { _name = title; }
 

@@ -35,7 +35,9 @@ private:
     const tPos _pressedState{};
 
     const std::string _font;
-    const sf::Color _textColor;
+    const sf::Color _textColorUsual;
+    const sf::Color _textColorPressed;
+    const sf::Color _textColorSelected;
 
     sf::Sprite _button;
     sf::Text _text;
@@ -49,7 +51,7 @@ public:
 
     Button(int x, int y, int width, int height, std::function<void()> click, std::string text, double sx, double sy,
            std::string texture, tPos usualState, tPos selectedState, tPos pressedState, std::string font,
-           sf::Color textColor);
+           sf::Color textColorUsual, sf::Color textColorPressed, sf::Color textColorSelected);
 
     void select();
 
