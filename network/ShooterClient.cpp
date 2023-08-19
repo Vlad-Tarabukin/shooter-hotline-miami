@@ -197,6 +197,7 @@ void ShooterClient::processCustomPacket(sf::Packet &packet) {
 
             if (buffId[0] == _socket.ownId()) {
                 _player->addDeath();
+                _player->setIsDead(true);
 
                 auto camera = _player->attached(ObjectNameTag("Camera"));
                 if (camera == nullptr) {
@@ -222,6 +223,7 @@ void ShooterClient::processCustomPacket(sf::Packet &packet) {
                             Vec3D{50.0 * (-1 + 2.0 * (double) rand() / RAND_MAX), 30.0 * (double) rand() / RAND_MAX,
                                   50.0 * (-1 + 2.0 * (double) rand() / RAND_MAX)});
                     _player->reInitWeapons();
+                    _player->setFullHealth();
                     _player->setFullAbility();
 
                     camera->rotateToAngle(Vec3D(0));
@@ -229,6 +231,7 @@ void ShooterClient::processCustomPacket(sf::Packet &packet) {
                     camera->rotateLeft(_player->headAngle());
                     camera->translateToPoint(_player->position() + Vec3D{0, 1.8, 0});
                     _player->attach(camera);
+                    _player->setIsDead(false);
 
                 }, 1, 0.1);
 

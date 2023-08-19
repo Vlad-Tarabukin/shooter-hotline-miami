@@ -61,6 +61,7 @@ namespace ShooterConsts {
     const std::string BIG_MAP_OBJ = "obj/maps/map2.obj";
     const std::string SIMPLE_MAP_OBJ = "obj/maps/map_simple.obj";
     const std::string PLANE_MAP_OBJ = "obj/maps/plane.obj";
+    const std::string EFFECT_OVERLAY = "textures/effects.png";
     const std::string MAIN_MENU_BACK = "textures/back.png";
     const std::string MAIN_MENU_GUI = "textures/gui.png";
 

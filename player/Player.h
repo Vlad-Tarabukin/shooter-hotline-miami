@@ -41,6 +41,7 @@ private:
     size_t _selectedWeapon = 0;
 
     bool _isPickingUp = false;
+    bool _isDead = false;
 
     std::string _nickName = ShooterConsts::PLAYER_NAME;
 
@@ -56,6 +57,8 @@ public:
     void setAbility(double a) { _ability = a; }
 
     void setPickingUp(bool p) { _isPickingUp = p; }
+
+    void setIsDead(bool d) { _isDead = d; }
 
     [[nodiscard]] double health() const { return _health; }
 
@@ -83,9 +86,14 @@ public:
 
     [[nodiscard]] int deaths() const { return _deaths; }
 
+    [[nodiscard]] bool isDead() const { return _isDead; }
+
     void addKill() { _kills++; }
 
-    void addDeath() { _deaths++; }
+    void addDeath() {
+        _deaths++;
+        _isDead = false;
+    }
 
     void setKills(int kills) { _kills = kills; }
 

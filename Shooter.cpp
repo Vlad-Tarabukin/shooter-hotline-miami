@@ -364,59 +364,70 @@ void Shooter::drawStatsTable() {
 }
 
 void Shooter::drawPlayerStats() {
-    // health bar
-    double xPos = 10;
-    double yPos = screen->height() - 45;
+    if (!player->isDead()) {
+        // health bar
+        double xPos = 10;
+        double yPos = screen->height() - 45;
 
-    int width = screen->width() / 2 - 20;
-    int height = 30;
+        int width = screen->width() / 2 - 20;
+        int height = 30;
 
-    screen->drawTetragon(Vec2D{xPos + 8, yPos + 8},
-                         Vec2D{xPos + 8 + width * player->ability() / ShooterConsts::ABILITY_MAX, yPos + 8},
-                         Vec2D{xPos + 8 + width * player->ability() / ShooterConsts::ABILITY_MAX, yPos + 8 + height},
-                         Vec2D{xPos + 8, yPos + 8 + height},
-                         {255, 25, 75, 255});
+        screen->drawTetragon(Vec2D{xPos + 8, yPos + 8},
+                             Vec2D{xPos + 8 + width * player->ability() / ShooterConsts::ABILITY_MAX, yPos + 8},
+                             Vec2D{xPos + 8 + width * player->ability() / ShooterConsts::ABILITY_MAX,
+                                   yPos + 8 + height},
+                             Vec2D{xPos + 8, yPos + 8 + height},
+                             {255, 25, 75, 255});
 
-    screen->drawTetragon(Vec2D{xPos, yPos},
-                         Vec2D{xPos + width * player->health() / ShooterConsts::HEALTH_MAX, yPos},
-                         Vec2D{xPos + width * player->health() / ShooterConsts::HEALTH_MAX, yPos + height},
-                         Vec2D{xPos, yPos + height},
-                         {81, 247, 255, 255});
+        screen->drawTetragon(Vec2D{xPos, yPos},
+                             Vec2D{xPos + width * player->health() / ShooterConsts::HEALTH_MAX, yPos},
+                             Vec2D{xPos + width * player->health() / ShooterConsts::HEALTH_MAX, yPos + height},
+                             Vec2D{xPos, yPos + height},
+                             {81, 247, 255, 255});
 
-    auto balance = player->weapon()->balance();
+        auto balance = player->weapon()->balance();
 
-    if(player->kills() > 0){
-        sf::Text tKills;
-        tKills.setCharacterSize(200);
-        tKills.setFillColor(sf::Color(255, 25, 50, 255));
-        tKills.setString("X" + std::to_string(player->kills()));
-        tKills.setPosition(50, static_cast<double>(screen->height() - 800));
-        tKills.setFont(*ResourceManager::loadFont(Consts::NINJA_FONT));
-        screen->drawText(tKills);
+        if (player->kills() > 0) {
+            sf::Text tKills;
+            tKills.setCharacterSize(200);
+            tKills.setFillColor(sf::Color(255, 25, 50, 255));
+            tKills.setString("X" + std::to_string(player->kills()));
+            tKills.setPosition(50, static_cast<double>(screen->height() - 800));
+            tKills.setFont(*ResourceManager::loadFont(Consts::NINJA_FONT));
+            screen->drawText(tKills);
+        }
+        if (!player->weapon()->isMelee()) {
+            sf::Text tFirst;
+            tFirst.setCharacterSize(150);
+            tFirst.setFillColor(sf::Color(255, 25, 75, 255));
+            tFirst.setString(std::to_string((int) balance.first));
+            tFirst.setPosition(205, static_cast<double>(screen->height() - 215));
+            tFirst.setFont(*ResourceManager::loadFont(Consts::HOTLINE_FONT));
+            screen->drawText(tFirst);
+            tFirst.setFillColor(sf::Color(81, 247, 255, 255));
+            tFirst.setPosition(200, static_cast<double>(screen->height() - 220));
+            screen->drawText(tFirst);
+
+            sf::Text tSecond;
+            tSecond.setCharacterSize(85);
+            tSecond.setFillColor(sf::Color(255, 25, 75, 255));
+            tSecond.setPosition(53, static_cast<double>(screen->height() - 150));
+            tSecond.setString(std::to_string((int) balance.second));
+            tSecond.setFont(*ResourceManager::loadFont(Consts::HOTLINE_FONT));
+            screen->drawText(tSecond);
+            tSecond.setFillColor(sf::Color(81, 247, 255, 255));
+            tSecond.setPosition(50, static_cast<double>(screen->height() - 153));
+            screen->drawText(tSecond);
+        }
     }
-    if (!player->weapon()->isMelee()){
-    sf::Text tFirst;
-    tFirst.setCharacterSize(150);
-    tFirst.setFillColor(sf::Color(255, 25, 75, 255));
-    tFirst.setString(std::to_string((int) balance.first));
-    tFirst.setPosition(205, static_cast<double>(screen->height() - 215));
-    tFirst.setFont(*ResourceManager::loadFont(Consts::HOTLINE_FONT));
-    screen->drawText(tFirst);
-    tFirst.setFillColor(sf::Color(81, 247, 255, 255));
-    tFirst.setPosition(200, static_cast<double>(screen->height() - 220));
-    screen->drawText(tFirst);
 
-    sf::Text tSecond;
-    tSecond.setCharacterSize(85);
-    tSecond.setFillColor(sf::Color(255, 25, 75, 255));
-    tSecond.setPosition(53, static_cast<double>(screen->height() - 150));
-    tSecond.setString(std::to_string((int) balance.second));
-    tSecond.setFont(*ResourceManager::loadFont(Consts::HOTLINE_FONT));
-    screen->drawText(tSecond);
-    tSecond.setFillColor(sf::Color(81, 247, 255, 255));
-    tSecond.setPosition(50, static_cast<double>(screen->height() - 153));
-    screen->drawText(tSecond);
-    }
+    sf::Sprite sprite;
+    sprite.setTexture(*ResourceManager::loadTexture(ShooterConsts::EFFECT_OVERLAY));
+    sprite.setTextureRect(sf::IntRect(0, 0, screen->width(), screen->height()));
+    sprite.scale(1, 1 );
+    sprite.setPosition(0, 0);
+    sprite.setColor(sf::Color(0, 0, 0, 250));
+    screen->drawSprite(sprite);
 }
 
 void Shooter::play() {

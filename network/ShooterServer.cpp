@@ -89,13 +89,14 @@ void ShooterServer::processCustomPacket(sf::Packet &packet, sf::Uint16 senderId)
         case ShooterMsgType::Damage:
             packet >> targetId >> damage;
             newHealth = _players[targetId]->health() - damage;
-            if (newHealth > 0) {
+            if (newHealth > 0 && !_players[targetId]->isDead()) {
                 _players[targetId]->setHealth(newHealth);
             } else {
                 _players[targetId]->setFullHealth();
                 _players[targetId]->setFullAbility();
                 _players[targetId]->addDeath();
                 _players[senderId]->addKill();
+                _players[senderId]->setIsDead(true);
 
                 sendPacket << MsgType::Custom << ShooterMsgType::Kill << targetId << senderId;
                 for (auto &player : _players)
