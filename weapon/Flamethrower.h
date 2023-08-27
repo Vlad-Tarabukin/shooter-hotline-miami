@@ -11,7 +11,7 @@
 
 class Flamethrower final : public Weapon {
 public:
-    explicit Flamethrower() : Weapon(400, 100, 4.0, 0.01, 0, 0, false, ShooterConsts::FLAMETHROWER_FIRE_SOUND, true,
+    explicit Flamethrower() : Weapon(400, 100, 4.0, 0.01, 0, 0, ShooterConsts::FLAMETHROWER_FIRE_SOUND, true,
                                 ShooterConsts::RELOAD_SOUND, ObjectNameTag("flamethrower"),
                                 ShooterConsts::FLAMETHROWER_OBJ,
                                 Vec3D{3, 3, 3}, Vec3D{-2.1, 0.8, 1.9}, Vec3D{0, 0, 0}) {}

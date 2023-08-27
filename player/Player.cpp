@@ -213,13 +213,13 @@ void Player::fireWeaponAnimation() {
 void Player::meleeFireWeaponAnimation() {
     Timeline::addAnimation<ARotateLeft>(AnimationListTag("melee_fire_weapon"),
                                         _weapons[_selectedWeapon],
-                                        1.5, _weapons[_selectedWeapon]->fireDelay()*0.2,
+                                        1.2, _weapons[_selectedWeapon]->fireDelay()*0.2,
                                         Animation::LoopOut::None,
                                         Animation::InterpolationType::Cos);
     Timeline::addAnimation<AWait>(AnimationListTag("melee_fire_weapon"), _weapons[_selectedWeapon]->fireDelay()*0.2);
     Timeline::addAnimation<ARotateLeft>(AnimationListTag("melee_fire_weapon"),
                                         _weapons[_selectedWeapon],
-                                        -1.5, _weapons[_selectedWeapon]->fireDelay()*0.6,
+                                        -1.2, _weapons[_selectedWeapon]->fireDelay()*0.6,
                                         Animation::LoopOut::None,
                                         Animation::InterpolationType::Cos);
 }

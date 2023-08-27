@@ -22,10 +22,14 @@ add_executable(${CMAKE_PROJECT_NAME}
         weapon/Rifle.h
         weapon/Mac10.h
         weapon/Silencer.h
+        weapon/Melee.h
+        weapon/Melee.cpp
         weapon/Bat.h
         weapon/Knife.h
         weapon/Katana.h
+        weapon/Flamethrower.h
         weapon/Flame.h
+
         player/PlayerController.cpp
         player/PlayerController.h
         Shooter.cpp
@@ -35,7 +39,7 @@ add_executable(${CMAKE_PROJECT_NAME}
         network/ShooterMsgType.cpp
         network/Chat.cpp
         network/Chat.h
-        weapon/Flamethrower.h
+
 )
 
 # include 3dzavr engine into our project

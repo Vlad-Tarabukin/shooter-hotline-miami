@@ -10,13 +10,13 @@
 
 using namespace std;
 
-Weapon::Weapon(int initialPack, int clipCapacity, double reloadTime, double fireDelay, double damage, double spreading, bool isMelee,
+Weapon::Weapon(int initialPack, int clipCapacity, double reloadTime, double fireDelay, double damage, double spreading,
                std::string fireSound, bool keepPlaying, std::string reloadSound, ObjectNameTag weaponName, const std::string &objFileName,
                const Vec3D &s, const Vec3D &t, const Vec3D &r) : RigidBody(std::move(weaponName), objFileName),
                                                                  _initialPack(initialPack), _clipCapacity(clipCapacity),
                                                                  _reloadTime(reloadTime), _fireDelay(fireDelay),
                                                                  _damage(damage), _spreading(spreading),
-                                                                 _isMelee(isMelee), _fireSound(std::move(fireSound)), _keepPlaying(keepPlaying),
+                                                                 _fireSound(std::move(fireSound)), _keepPlaying(keepPlaying),
                                                                  _reloadSound(std::move(reloadSound)) {
     _stockAmmo = _initialPack - _clipCapacity;
     _clipAmmo = _clipCapacity;
@@ -27,20 +27,7 @@ Weapon::Weapon(int initialPack, int clipCapacity, double reloadTime, double fire
     translate(t);
 }
 
-Weapon::Weapon(double fireDelay, double damage, bool isMelee, std::string fireSound, ObjectNameTag weaponName,
-               const std::string &objFileName, const Vec3D &s, const Vec3D &t, const Vec3D &r) :
-               RigidBody(std::move(weaponName), objFileName),
-               _fireDelay(fireDelay), _damage(damage),
-               _isMelee(isMelee), _fireSound(std::move(fireSound)) {
-
-    _stockAmmo = 0;
-    _clipAmmo = 1;
-
-    loadObj(objFileName, s);
-    setCollider(false);
-    rotate(r);
-    translate(t);
-}
+Weapon::Weapon(ObjectNameTag weaponName, const std::string &objFileName) : RigidBody(std::move(weaponName), objFileName) {}
 
 FireInformation Weapon::fire(std::function<IntersectionInformation(const Vec3D &, const Vec3D &)> rayCastFunction,
                              const Vec3D &position, const Vec3D &direction) {
@@ -57,7 +44,7 @@ FireInformation Weapon::fire(std::function<IntersectionInformation(const Vec3D &
     }
 
     _lastFireTime = Time::time();
-    _clipAmmo -= _isMelee ? 0 : 1;
+    _clipAmmo--;
 
     if(!_keepPlaying || SoundController::getStatus(SoundTag("fireSound_" + name().str())) != sf::Sound::Status::Playing) {
         SoundController::loadAndPlay(SoundTag("fireSound_" + name().str()), _fireSound);
@@ -65,7 +52,7 @@ FireInformation Weapon::fire(std::function<IntersectionInformation(const Vec3D &
     }
     Log::log("Weapon::fire (" + std::to_string(_stockAmmo) + " : " + std::to_string(_clipAmmo) + ")");
 
-    EventHandler::call<void()>(Event(_isMelee ? "melee_fire" : "fire"));
+    EventHandler::call<void()>(Event("fire"));
     return FireInformation{processFire(std::move(rayCastFunction), position, direction), true};
 }
 
@@ -111,7 +98,7 @@ Weapon::fireABullet(std::function<IntersectionInformation(const Vec3D &, const V
 
     // damage player
     auto rayCast = rayCastFunction(cameraPosition, cameraPosition + direction * ShooterConsts::FIRE_DISTANCE + randV);
-    if (rayCast.objectName.contains(ObjectNameTag("Enemy")) && (!_isMelee || rayCast.distanceToObject < ShooterConsts::MELEE_ATTACK_RANGE)) {
+    if (rayCast.objectName.contains(ObjectNameTag("Enemy"))) {
 
         damagedPlayers[rayCast.objectName] += _damage / (1.0 + rayCast.distanceToObject);
 
@@ -125,15 +112,13 @@ Weapon::fireABullet(std::function<IntersectionInformation(const Vec3D &, const V
         }
     }
 
-    // add trace line if not melee
-    if (!_isMelee){
-        Vec3D lineFrom = position() + model() * Vec3D(triangles().back()[0]);
-        Vec3D lineTo = rayCast.intersected ? rayCast.pointOfIntersection : position() +
+    // add trace line
+    Vec3D lineFrom = position() + model() * Vec3D(triangles().back()[0]);
+    Vec3D lineTo = rayCast.intersected ? rayCast.pointOfIntersection : position() +
                                                                        direction * ShooterConsts::FIRE_DISTANCE +
                                                                        randV;
 
-        EventHandler::call<void(const Vec3D&, const Vec3D&)>(Event("your_bullet"), lineFrom, lineTo);
-    }
+    EventHandler::call<void(const Vec3D&, const Vec3D&)>(Event("your_bullet"), lineFrom, lineTo);
 
     return damagedPlayers;
 }

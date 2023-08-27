@@ -33,7 +33,6 @@ private:
     const double _fireDelay = 0.1; // time delay between fires
     const double _damage = 300;
     const double _spreading = 0;
-    const bool _isMelee = false;
 
     const std::string _fireSound;
     const bool _keepPlaying = false;
@@ -53,21 +52,20 @@ protected:
                 const Vec3D &position, const Vec3D &direction) const;
 
 public:
-    Weapon(int initialPack, int clipCapacity, double reloadTime, double fireDelay, double damage, double spreading, bool isMelee,
+    Weapon(int initialPack, int clipCapacity, double reloadTime, double fireDelay, double damage, double spreading,
            std::string fireSound, bool keepPlaying, std::string reloadSound, ObjectNameTag weaponName, const std::string &objFileName,
            const Vec3D &s, const Vec3D &t, const Vec3D &r);
 
-    Weapon(double fireDelay, double damage,  bool isMelee, std::string fireSound, ObjectNameTag weaponName,
-           const std::string &objFileName, const Vec3D &s, const Vec3D &t, const Vec3D &r);
+    Weapon(ObjectNameTag weaponName, const std::string &objFileName);
 
-    FireInformation
+    virtual FireInformation
     fire(std::function<IntersectionInformation(const Vec3D &, const Vec3D &)> rayCastFunction, const Vec3D &cameraPosition,
          const Vec3D &direction);
 
     void reload();
     [[nodiscard]] double reloadTime() const { return _reloadTime; }
-    [[nodiscard]] double fireDelay() const { return _fireDelay; }
-    [[nodiscard]] bool isMelee() const { return _isMelee; }
+
+    [[nodiscard]] virtual double fireDelay() const { return _fireDelay; }
 
     [[nodiscard]] std::pair<double, double> balance() const { return std::make_pair(_clipAmmo, _stockAmmo); }
 

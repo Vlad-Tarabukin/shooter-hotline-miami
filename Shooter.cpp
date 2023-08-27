@@ -14,6 +14,7 @@
 #include "network/Chat.h"
 #include "3dzavr/engine/Consts.h"
 #include "weapon/Flame.h"
+#include "weapon/Melee.h"
 
 // Read server/client settings and start both.
 // If client doesn't connect to the localhost - server doesn't start.
@@ -396,7 +397,7 @@ void Shooter::drawPlayerStats() {
             tKills.setFont(*ResourceManager::loadFont(Consts::NINJA_FONT));
             screen->drawText(tKills);
         }
-        if (!player->weapon()->isMelee()) {
+        if (!std::dynamic_pointer_cast<Melee>(player->weapon())) {
             sf::Text tFirst;
             tFirst.setCharacterSize(150);
             tFirst.setFillColor(sf::Color(255, 25, 75, 255));
